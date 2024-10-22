@@ -16,10 +16,10 @@ export class GetFilmListFromCsv implements GetAllMoviesRepository {
             year: parseInt(row.year),
             title: row.title,
             studios: row.studios
-              .split(",")
+              .split(/,|and/)
               .map((studio: string) => ({ name: studio.trim() })),
             producers: row.producers
-              .split(",")
+              .split(/,|and/)
               .map((producer: string) => ({ name: producer.trim() })),
             winner: row.winner === "yes",
           });
