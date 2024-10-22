@@ -1,22 +1,10 @@
 import request from "supertest";
 import { app, server } from "../server";
 import { AppDataSource, MoviesEntity } from "../main/infra/database";
-import { mockedMovies } from "./mockMovieData";
 
 describe("producer winner intervals", () => {
   beforeAll((done) => {
-    app.on("appStarted", async function () {
-      await AppDataSource.createQueryBuilder()
-        .delete()
-        .from(MoviesEntity)
-        .execute();
-
-      const moviesToInsert = mockedMovies.map((item) =>
-        MoviesEntity.create({ ...item })
-      );
-      await MoviesEntity.save(moviesToInsert);
-      done();
-    });
+    app.on("appStarted", () => done());
   });
 
   afterAll(async () => {
@@ -30,20 +18,20 @@ describe("producer winner intervals", () => {
     );
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      max: [
-        {
-          followingWin: 1985,
-          interval: 3,
-          previousWin: 1982,
-          producer: "Mitsuharu Ishii",
-        },
-      ],
       min: [
         {
-          followingWin: 1981,
+          followingWin: 1991,
+          producer: "Joel Silver",
           interval: 1,
-          previousWin: 1980,
-          producer: "Allan Carr",
+          previousWin: 1990,
+        },
+      ],
+      max: [
+        {
+          followingWin: 2015,
+          producer: "Matthew Vaughn",
+          interval: 13,
+          previousWin: 2002,
         },
       ],
     });
