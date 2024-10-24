@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { CreateManyMoviesRepository } from "../repositories/createManyRepository";
 import { GetAllMoviesRepository } from "../repositories/getFilmListRepository";
+import { IInitDataBase } from "../repositories/initDataBase";
 
 export interface IInitServerService {
   initialize: () => Promise<void>;
@@ -10,7 +11,7 @@ export class InitServerService implements IInitServerService {
   constructor(
     private readonly createManyMovie: CreateManyMoviesRepository,
     private readonly getAllMovies: GetAllMoviesRepository,
-    private readonly dataSource: DataSource
+    private readonly dataSource: IInitDataBase
   ) {}
 
   async initialize() {
